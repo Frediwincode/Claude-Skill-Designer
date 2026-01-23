@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claude Skill Designer - Create Document Brand Guidelines</title>
+    <meta name="description" content="Create brand guidelines that generate ready-to-use Claude skills for Word, Google Docs, PowerPoint, and Google Slides documents.">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Pickr Color Picker -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/themes/nano.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/pickr.min.js"></script>
+
+    <!-- Mammoth.js for Word parsing -->
+    <script src="https://cdn.jsdelivr.net/npm/mammoth@1.6.0/mammoth.browser.min.js"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="css/styles.css">
+
+    <style>
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Header -->
+    <header class="bg-white border-b border-gray-200 sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"></path>
+                        </svg>
+                    </div>
+                    <h1 class="text-xl font-bold text-gray-900">Claude Skill Designer</h1>
+                </div>
+
+                <!-- Profile Selector -->
+                <div class="flex items-center gap-3">
+                    <select id="profile-selector" class="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                    </select>
+                    <button id="new-profile-btn" class="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg" title="New Profile">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                        </svg>
+                    </button>
+                    <button id="rename-profile-btn" class="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg" title="Rename Profile">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                        </svg>
+                    </button>
+                    <button id="delete-profile-btn" class="p-2 text-gray-500 hover:text-red-600 hover:bg-red-50 rounded-lg" title="Delete Profile">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Tabs -->
+        <div class="border-b border-gray-200 mb-8">
+            <nav class="flex gap-8">
+                <button data-tab="design" class="tab-button px-1 py-4 text-sm font-medium border-b-2 border-blue-500 text-blue-600">
+                    Design
+                </button>
+                <button data-tab="preview" class="tab-button px-1 py-4 text-sm font-medium border-b-2 border-transparent text-gray-500 hover:text-gray-700">
+                    Preview
+                </button>
+                <button data-tab="generate" class="tab-button px-1 py-4 text-sm font-medium border-b-2 border-transparent text-gray-500 hover:text-gray-700">
+                    Generate Skill
+                </button>
+            </nav>
+        </div>
+
+        <!-- Design Tab Panel -->
+        <div data-tab-panel="design" class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Left Column - Settings -->
+            <div class="lg:col-span-2 space-y-6">
+                <!-- Quick Presets -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                    <h2 class="font-semibold text-gray-900 text-lg mb-4">Quick Start Presets</h2>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                        <button data-preset="corporate" class="preset-card border-gray-200 hover:border-blue-400">
+                            <div class="flex gap-1 mb-2">
+                                <div class="w-4 h-4 rounded-full" style="background-color: #1e3a5f"></div>
+                                <div class="w-4 h-4 rounded-full" style="background-color: #3d5a80"></div>
+                                <div class="w-4 h-4 rounded-full" style="background-color: #ee6c4d"></div>
+                            </div>
+                            <span class="text-sm font-medium text-gray-800">Corporate</span>
+                        </button>
+                        <button data-preset="creative" class="preset-card border-gray-200 hover:border-blue-400">
+                            <div class="flex gap-1 mb-2">
+                                <div class="w-4 h-4 rounded-full" style="background-color: #6366f1"></div>
+                                <div class="w-4 h-4 rounded-full" style="background-color: #8b5cf6"></div>
+                                <div class="w-4 h-4 rounded-full" style="background-color: #f59e0b"></div>
+                            </div>
+                            <span class="text-sm font-medium text-gray-800">Creative</span>
+                        </button>
+                        <button data-preset="minimal" class="preset-card border-gray-200 hover:border-blue-400">
+                            <div class="flex gap-1 mb-2">
+                                <div class="w-4 h-4 rounded-full" style="background-color: #171717"></div>
+                                <div class="w-4 h-4 rounded-full" style="background-color: #404040"></div>
+                                <div class="w-4 h-4 rounded-full" style="background-color: #737373"></div>
+                            </div>
+                            <span class="text-sm font-medium text-gray-800">Minimal</span>
+                        </button>
+                        <button data-preset="academic" class="preset-card border-gray-200 hover:border-blue-400">
+                            <div class="flex gap-1 mb-2">
+                                <div class="w-4 h-4 rounded-full" style="background-color: #1e40af"></div>
+                                <div class="w-4 h-4 rounded-full" style="background-color: #1e3a8a"></div>
+                                <div class="w-4 h-4 rounded-full" style="background-color: #dc2626"></div>
+                            </div>
+                            <span class="text-sm font-medium text-gray-800">Academic</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Colors Section -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                    <h2 class="font-semibold text-gray-900 text-lg mb-4">Brand Colors</h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <!-- Primary -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Primary</label>
+                            <div class="flex items-center gap-2">
+                                <div id="color-picker-primary"></div>
+                                <input type="text" id="hex-input-primary" class="flex-1 px-3 py-2 text-sm border border-gray-300 rounded-lg font-mono focus:ring-2 focus:ring-blue-500" placeholder="#000000" maxlength="7">
+                            </div>
+                            <p class="text-xs text-gray-500 mt-1">Headings, key elements</p>
+                        </div>
+                        <!-- Secondary -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Secondary</label>
+                            <div class="flex items-center gap-2">
+                                <div id="color-picker-secondary"></div>
+                                <input type="text" id="hex-input-secondary" class="flex-1 px-3 py-2 text-sm border border-gray-300 rounded-lg font-mono focus:ring-2 focus:ring-blue-500" placeholder="#000000" maxlength="7">
+                            </div>
+                            <p class="text-xs text-gray-500 mt-1">Subheadings, accents</p>
+                        </div>
+                        <!-- Accent -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Accent</label>
+                            <div class="flex items-center gap-2">
+                                <div id="color-picker-accent"></div>
+                                <input type="text" id="hex-input-accent" class="flex-1 px-3 py-2 text-sm border border-gray-300 rounded-lg font-mono focus:ring-2 focus:ring-blue-500" placeholder="#000000" maxlength="7">
+                            </div>
+                            <p class="text-xs text-gray-500 mt-1">Highlights, CTAs</p>
+                        </div>
+                        <!-- Text -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Text</label>
+                            <div class="flex items-center gap-2">
+                                <div id="color-picker-text"></div>
+                                <input type="text" id="hex-input-text" class="flex-1 px-3 py-2 text-sm border border-gray-300 rounded-lg font-mono focus:ring-2 focus:ring-blue-500" placeholder="#000000" maxlength="7">
+                            </div>
+                            <p class="text-xs text-gray-500 mt-1">Body text color</p>
+                        </div>
+                        <!-- Background -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Background</label>
+                            <div class="flex items-center gap-2">
+                                <div id="color-picker-background"></div>
+                                <input type="text" id="hex-input-background" class="flex-1 px-3 py-2 text-sm border border-gray-300 rounded-lg font-mono focus:ring-2 focus:ring-blue-500" placeholder="#000000" maxlength="7">
+                            </div>
+                            <p class="text-xs text-gray-500 mt-1">Page background</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Typography Section -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                    <h2 class="font-semibold text-gray-900 text-lg mb-4">Typography</h2>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Heading Font -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Heading Font</label>
+                            <select id="heading-font" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                            </select>
+                            <div id="heading-font-preview" class="mt-2 text-lg text-gray-700">Preview Text</div>
+                        </div>
+                        <!-- Body Font -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Body Font</label>
+                            <select id="body-font" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                            </select>
+                            <div id="body-font-preview" class="mt-2 text-sm text-gray-700">Preview text for body content</div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
+                        <!-- Heading Weight -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Heading Weight</label>
+                            <select id="heading-weight" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                            </select>
+                        </div>
+                        <!-- Body Weight -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Body Weight</label>
+                            <select id="body-weight" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                            </select>
+                        </div>
+                        <!-- Line Height -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Line Height</label>
+                            <input type="range" id="line-height" min="1" max="2.5" step="0.1" class="w-full">
+                            <div id="line-height-display" class="text-xs text-gray-500 text-center">1.6</div>
+                        </div>
+                        <!-- Letter Spacing -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Letter Spacing</label>
+                            <input type="range" id="letter-spacing" min="-1" max="3" step="0.25" class="w-full">
+                            <div id="letter-spacing-display" class="text-xs text-gray-500 text-center">0px</div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
+                        <!-- H1 Size -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">H1 Size (pt)</label>
+                            <input type="number" id="h1-size" min="24" max="48" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                        </div>
+                        <!-- H2 Size -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">H2 Size (pt)</label>
+                            <input type="number" id="h2-size" min="18" max="36" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                        </div>
+                        <!-- H3 Size -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">H3 Size (pt)</label>
+                            <input type="number" id="h3-size" min="14" max="28" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                        </div>
+                        <!-- Body Size -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Body Size (pt)</label>
+                            <input type="number" id="body-size" min="10" max="24" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Logo Section -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                    <h2 class="font-semibold text-gray-900 text-lg mb-4">Logo</h2>
+                    <div class="flex flex-col md:flex-row gap-6">
+                        <div class="flex-shrink-0">
+                            <div id="logo-preview" class="w-32 h-32 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center bg-gray-50 overflow-hidden">
+                                <span class="text-gray-400 text-sm">No logo uploaded</span>
+                            </div>
+                            <div class="mt-3 space-y-2">
+                                <label class="block">
+                                    <span class="sr-only">Choose logo</span>
+                                    <input type="file" id="logo-upload" accept="image/png,image/jpeg,image/jpg"
+                                        class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 cursor-pointer">
+                                </label>
+                                <button id="remove-logo" class="hidden text-sm text-red-600 hover:text-red-700">Remove Logo</button>
+                            </div>
+                        </div>
+                        <div class="flex-1 grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Position</label>
+                                <select id="logo-position" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                                    <option value="header-left">Header Left</option>
+                                    <option value="header-center">Header Center</option>
+                                    <option value="header-right">Header Right</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Size</label>
+                                <select id="logo-size" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                                    <option value="small">Small</option>
+                                    <option value="medium" selected>Medium</option>
+                                    <option value="large">Large</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Header/Footer Section -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                    <h2 class="font-semibold text-gray-900 text-lg mb-4">Header & Footer</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Company Name</label>
+                            <input type="text" id="company-name" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="Your Company">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Tagline</label>
+                            <input type="text" id="tagline" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="Your slogan here">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Contact Info</label>
+                            <input type="text" id="contact-info" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="email@company.com">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Footer Text</label>
+                            <input type="text" id="footer-text" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="Page {page} of {pages}">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Watermark Section -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="font-semibold text-gray-900 text-lg">Watermark</h2>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" id="watermark-enabled" class="sr-only peer">
+                            <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-500"></div>
+                        </label>
+                    </div>
+                    <div id="watermark-fields" class="hidden grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Type</label>
+                            <select id="watermark-type" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                                <option value="text">Text</option>
+                                <option value="image">Image</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Content</label>
+                            <input type="text" id="watermark-content" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="DRAFT">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Opacity: <span id="opacity-display">10%</span></label>
+                            <input type="range" id="watermark-opacity" min="0.05" max="0.5" step="0.05" value="0.1" class="w-full">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Position</label>
+                            <select id="watermark-position" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                                <option value="center">Center</option>
+                                <option value="diagonal">Diagonal</option>
+                                <option value="corner">Corner</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Layout Section -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                    <h2 class="font-semibold text-gray-900 text-lg mb-4">Layout</h2>
+                    <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Top Margin</label>
+                            <input type="number" id="margin-top" min="0.5" max="2" step="0.25" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Right Margin</label>
+                            <input type="number" id="margin-right" min="0.5" max="2" step="0.25" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Bottom Margin</label>
+                            <input type="number" id="margin-bottom" min="0.5" max="2" step="0.25" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Left Margin</label>
+                            <input type="number" id="margin-left" min="0.5" max="2" step="0.25" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Spacing</label>
+                            <select id="spacing" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                                <option value="compact">Compact</option>
+                                <option value="normal" selected>Normal</option>
+                                <option value="relaxed">Relaxed</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Template Upload Section -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                    <h2 class="font-semibold text-gray-900 text-lg mb-4">Import from Word Template</h2>
+                    <p class="text-sm text-gray-600 mb-4">Upload a .docx file to automatically extract colors, fonts, and styling.</p>
+                    <label class="block">
+                        <span class="sr-only">Choose Word template</span>
+                        <input type="file" id="template-upload" accept=".docx,.doc"
+                            class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-gray-100 file:text-gray-700 hover:file:bg-gray-200 cursor-pointer">
+                    </label>
+                    <p id="template-status" class="hidden text-sm mt-3"></p>
+                </div>
+
+                <!-- Export/Import Section -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                    <h2 class="font-semibold text-gray-900 text-lg mb-4">Export & Import Profile</h2>
+                    <div class="flex gap-3">
+                        <button id="export-profile" class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors font-medium">
+                            Export Profile (JSON)
+                        </button>
+                        <button id="import-profile" class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors font-medium">
+                            Import Profile
+                        </button>
+                        <input type="file" id="import-input" accept=".json" class="hidden">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column - Mini Preview -->
+            <div class="lg:col-span-1">
+                <div class="sticky top-24">
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="font-medium text-gray-900">Live Preview</h3>
+                            <button id="preview-toggle" class="text-sm text-blue-600 hover:text-blue-700">Switch to Presentation</button>
+                        </div>
+                        <div id="preview-container" class="overflow-hidden rounded-lg">
+                            <!-- Preview content rendered by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Preview Tab Panel -->
+        <div data-tab-panel="preview" class="hidden">
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="font-semibold text-gray-900 text-lg">Full Preview</h2>
+                    <button id="preview-toggle-full" class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors font-medium">
+                        Switch to Presentation
+                    </button>
+                </div>
+                <div id="preview-container-full" class="flex justify-center py-8 bg-gray-100 rounded-lg overflow-auto">
+                    <!-- Full preview content -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Generate Tab Panel -->
+        <div data-tab-panel="generate" class="hidden">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Left - Output -->
+                <div class="lg:col-span-2">
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <h2 class="font-semibold text-gray-900 text-lg">Generated Claude Skill</h2>
+                            <div class="flex gap-2">
+                                <button id="copy-skill" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors font-medium">
+                                    Copy to Clipboard
+                                </button>
+                                <button id="download-skill" class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors font-medium">
+                                    Download .md
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Document Type Selector -->
+                        <div class="flex gap-2 mb-4">
+                            <button data-doc-type="word" class="doc-type-btn bg-blue-500 text-white">Word</button>
+                            <button data-doc-type="googleDocs" class="doc-type-btn bg-gray-100 text-gray-700">Google Docs</button>
+                            <button data-doc-type="powerpoint" class="doc-type-btn bg-gray-100 text-gray-700">PowerPoint</button>
+                            <button data-doc-type="googleSlides" class="doc-type-btn bg-gray-100 text-gray-700">Google Slides</button>
+                        </div>
+
+                        <pre id="skill-output" class="skill-output bg-gray-900 text-gray-100 p-6 rounded-lg overflow-auto max-h-[600px] custom-scrollbar whitespace-pre-wrap"></pre>
+                    </div>
+                </div>
+
+                <!-- Right - Instructions -->
+                <div class="lg:col-span-1">
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 sticky top-24">
+                        <h3 class="font-semibold text-gray-900 text-lg mb-4">How to Use This Skill</h3>
+
+                        <div class="space-y-4 text-sm">
+                            <div class="pb-4 border-b border-gray-100">
+                                <h4 class="font-medium text-gray-800 mb-2">Claude Projects</h4>
+                                <ol class="list-decimal list-inside text-gray-600 space-y-1">
+                                    <li>Open your Claude Project</li>
+                                    <li>Go to Project Instructions</li>
+                                    <li>Paste the skill content</li>
+                                    <li>Save and start chatting</li>
+                                </ol>
+                            </div>
+
+                            <div class="pb-4 border-b border-gray-100">
+                                <h4 class="font-medium text-gray-800 mb-2">Claude Cowork</h4>
+                                <ol class="list-decimal list-inside text-gray-600 space-y-1">
+                                    <li>Create a new skill file</li>
+                                    <li>Paste the markdown content</li>
+                                    <li>Reference in your workspace</li>
+                                </ol>
+                            </div>
+
+                            <div>
+                                <h4 class="font-medium text-gray-800 mb-2">Claude Code</h4>
+                                <ol class="list-decimal list-inside text-gray-600 space-y-1">
+                                    <li>Save as a .md file in your project</li>
+                                    <li>Reference in CLAUDE.md or directly</li>
+                                    <li>Use with document generation</li>
+                                </ol>
+                            </div>
+                        </div>
+
+                        <div class="mt-6 p-4 bg-blue-50 rounded-lg">
+                            <p class="text-sm text-blue-800">
+                                <strong>Tip:</strong> Generate skills for all document types you use and keep them in your project for consistent branding.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Onboarding Modal -->
+    <div id="onboarding-modal" class="hidden fixed inset-0 z-50 overflow-y-auto">
+        <div class="flex min-h-full items-center justify-center p-4 bg-black bg-opacity-50">
+            <div class="onboarding-modal bg-white rounded-2xl shadow-2xl max-w-lg w-full p-8">
+                <!-- Progress Bar -->
+                <div class="h-1 bg-gray-200 rounded-full mb-8">
+                    <div id="onboarding-progress" class="h-1 bg-blue-500 rounded-full transition-all duration-300" style="width: 16.66%"></div>
+                </div>
+
+                <!-- Content -->
+                <div id="onboarding-content">
+                    <!-- Content rendered by JavaScript -->
+                </div>
+
+                <!-- Navigation -->
+                <div class="flex items-center justify-between mt-8">
+                    <button id="onboarding-skip" class="text-sm text-gray-500 hover:text-gray-700" onclick="Onboarding.skipOnboarding()">
+                        Skip setup
+                    </button>
+                    <div class="flex gap-3">
+                        <button id="onboarding-prev" class="invisible px-4 py-2 text-gray-600 hover:text-gray-800" onclick="Onboarding.prevStep()">
+                            Back
+                        </button>
+                        <button id="onboarding-next" class="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 font-medium" onclick="Onboarding.nextStep()">
+                            Next
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/storage.js"></script>
+    <script src="js/presets.js"></script>
+    <script src="js/onboarding.js"></script>
+    <script src="js/colorPicker.js"></script>
+    <script src="js/typography.js"></script>
+    <script src="js/templateParser.js"></script>
+    <script src="js/skillGenerator.js"></script>
+    <script src="js/preview.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

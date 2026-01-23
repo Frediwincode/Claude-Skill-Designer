@@ -1,0 +1,243 @@
+/* Custom styles for Claude Skill Designer */
+
+/* Color picker button styling */
+.pickr {
+    width: 40px;
+    height: 40px;
+}
+
+.pickr .pcr-button {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    border: 2px solid #e5e7eb;
+    transition: border-color 0.2s ease;
+}
+
+.pickr .pcr-button:hover {
+    border-color: #3b82f6;
+}
+
+.pickr .pcr-button::after {
+    display: none;
+}
+
+/* Tab styling */
+.tab-button {
+    position: relative;
+    padding-bottom: 0.75rem;
+    transition: color 0.2s ease;
+}
+
+.tab-button::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background-color: transparent;
+    transition: background-color 0.2s ease;
+}
+
+.tab-button.active::after {
+    background-color: #3b82f6;
+}
+
+/* Form controls */
+.form-input {
+    @apply w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors;
+}
+
+.form-label {
+    @apply block text-sm font-medium text-gray-700 mb-1;
+}
+
+.form-group {
+    @apply mb-4;
+}
+
+/* Preview container */
+.preview-frame {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    border-radius: 4px;
+}
+
+/* Skill output styling */
+.skill-output {
+    font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
+    font-size: 13px;
+    line-height: 1.5;
+    tab-size: 2;
+}
+
+/* Logo preview */
+.logo-preview {
+    @apply w-32 h-32 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center bg-gray-50 overflow-hidden;
+}
+
+/* Scrollbar styling */
+.custom-scrollbar::-webkit-scrollbar {
+    width: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: #f1f5f9;
+    border-radius: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+/* Button styles */
+.btn-primary {
+    @apply px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors font-medium;
+}
+
+.btn-secondary {
+    @apply px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors font-medium;
+}
+
+.btn-outline {
+    @apply px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors font-medium;
+}
+
+/* Card styles */
+.card {
+    @apply bg-white rounded-xl shadow-sm border border-gray-200 p-6;
+}
+
+.card-header {
+    @apply font-semibold text-gray-900 text-lg mb-4 pb-2 border-b border-gray-100;
+}
+
+/* Section dividers */
+.section-divider {
+    @apply border-t border-gray-200 my-6;
+}
+
+/* Onboarding modal */
+.onboarding-modal {
+    animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Preset buttons */
+.preset-card {
+    @apply p-4 border-2 rounded-lg text-left transition-all cursor-pointer;
+}
+
+.preset-card:hover {
+    @apply border-blue-400 bg-blue-50;
+}
+
+.preset-card.active {
+    @apply border-blue-500 bg-blue-50;
+}
+
+/* Document type buttons */
+.doc-type-btn {
+    @apply px-4 py-2 rounded-lg font-medium transition-all;
+}
+
+.doc-type-btn.active {
+    @apply bg-blue-500 text-white;
+}
+
+.doc-type-btn:not(.active) {
+    @apply bg-gray-100 text-gray-700 hover:bg-gray-200;
+}
+
+/* Range slider styling */
+input[type="range"] {
+    @apply w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    @apply appearance-none w-4 h-4 bg-blue-500 rounded-full cursor-pointer;
+}
+
+input[type="range"]::-moz-range-thumb {
+    @apply w-4 h-4 bg-blue-500 rounded-full cursor-pointer border-0;
+}
+
+/* Number input styling */
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Toggle switch */
+.toggle-switch {
+    @apply relative inline-flex h-6 w-11 items-center rounded-full transition-colors;
+}
+
+.toggle-switch input:checked + span {
+    @apply bg-blue-500;
+}
+
+.toggle-switch input:not(:checked) + span {
+    @apply bg-gray-300;
+}
+
+.toggle-switch span::after {
+    content: '';
+    @apply absolute left-1 top-1 h-4 w-4 rounded-full bg-white transition-transform;
+}
+
+.toggle-switch input:checked + span::after {
+    @apply translate-x-5;
+}
+
+/* Color swatch display */
+.color-swatch {
+    @apply w-6 h-6 rounded-full border-2 border-white shadow-sm;
+}
+
+/* Sidebar navigation */
+.sidebar-nav-item {
+    @apply flex items-center gap-3 px-4 py-2 rounded-lg text-gray-600 hover:bg-gray-100 hover:text-gray-900 transition-colors;
+}
+
+.sidebar-nav-item.active {
+    @apply bg-blue-50 text-blue-700 font-medium;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .preview-frame {
+        max-width: 100%;
+    }
+
+    .card {
+        @apply p-4;
+    }
+}
+
+/* Print styles */
+@media print {
+    .no-print {
+        display: none !important;
+    }
+}
