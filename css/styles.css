@@ -1,5 +1,14 @@
 /* Custom styles for Claude Skill Designer */
 
+/* Dark mode color scheme */
+:root {
+    color-scheme: light dark;
+}
+
+.dark {
+    color-scheme: dark;
+}
+
 /* Color picker button styling */
 .pickr {
     width: 40px;
@@ -12,6 +21,10 @@
     border-radius: 8px;
     border: 2px solid #e5e7eb;
     transition: border-color 0.2s ease;
+}
+
+.dark .pickr .pcr-button {
+    border-color: #4b5563;
 }
 
 .pickr .pcr-button:hover {
@@ -86,13 +99,25 @@
     border-radius: 4px;
 }
 
+.dark .custom-scrollbar::-webkit-scrollbar-track {
+    background: #1f2937;
+}
+
 .custom-scrollbar::-webkit-scrollbar-thumb {
     background: #cbd5e1;
     border-radius: 4px;
 }
 
+.dark .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #4b5563;
+}
+
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
     background: #94a3b8;
+}
+
+.dark .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #6b7280;
 }
 
 /* Button styles */
@@ -143,12 +168,24 @@
     @apply p-4 border-2 rounded-lg text-left transition-all cursor-pointer;
 }
 
+.dark .preset-card {
+    @apply border-gray-600;
+}
+
 .preset-card:hover {
     @apply border-blue-400 bg-blue-50;
 }
 
+.dark .preset-card:hover {
+    @apply border-blue-400 bg-blue-900/30;
+}
+
 .preset-card.active {
     @apply border-blue-500 bg-blue-50;
+}
+
+.dark .preset-card.active {
+    @apply border-blue-500 bg-blue-900/30;
 }
 
 /* Document type buttons */
@@ -167,6 +204,10 @@
 /* Range slider styling */
 input[type="range"] {
     @apply w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer;
+}
+
+.dark input[type="range"] {
+    @apply bg-gray-700;
 }
 
 input[type="range"]::-webkit-slider-thumb {

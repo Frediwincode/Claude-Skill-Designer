@@ -8,6 +8,11 @@
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class'
+        }
+    </script>
 
     <!-- Pickr Color Picker -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/themes/nano.min.css">
@@ -30,9 +35,9 @@
         }
     </style>
 </head>
-<body class="bg-gray-50 min-h-screen">
+<body class="bg-gray-50 dark:bg-gray-900 min-h-screen transition-colors duration-200">
     <!-- Header -->
-    <header class="bg-white border-b border-gray-200 sticky top-0 z-40">
+    <header class="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-40 transition-colors duration-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
                 <a href="index.html" class="flex items-center gap-3 hover:opacity-80 transition-opacity">
@@ -41,24 +46,34 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"></path>
                         </svg>
                     </div>
-                    <h1 class="text-xl font-bold text-gray-900">Claude Skill Designer</h1>
+                    <h1 class="text-xl font-bold text-gray-900 dark:text-white">Claude Skill Designer</h1>
                 </a>
 
                 <!-- Profile Selector -->
                 <div class="flex items-center gap-3">
-                    <select id="profile-selector" class="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                    <!-- Dark Mode Toggle -->
+                    <button id="dark-mode-toggle" class="p-2 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors" title="Toggle Dark Mode">
+                        <svg id="dark-mode-icon-sun" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                        </svg>
+                        <svg id="dark-mode-icon-moon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                        </svg>
+                    </button>
+                    <div class="w-px h-6 bg-gray-300 dark:bg-gray-600"></div>
+                    <select id="profile-selector" class="px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                     </select>
-                    <button id="new-profile-btn" class="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg" title="New Profile">
+                    <button id="new-profile-btn" class="p-2 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors" title="New Profile">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
                         </svg>
                     </button>
-                    <button id="rename-profile-btn" class="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg" title="Rename Profile">
+                    <button id="rename-profile-btn" class="p-2 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors" title="Rename Profile">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
                         </svg>
                     </button>
-                    <button id="delete-profile-btn" class="p-2 text-gray-500 hover:text-red-600 hover:bg-red-50 rounded-lg" title="Delete Profile">
+                    <button id="delete-profile-btn" class="p-2 text-gray-500 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors" title="Delete Profile">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
                         </svg>
@@ -71,15 +86,15 @@
     <!-- Main Content -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <!-- Tabs -->
-        <div class="border-b border-gray-200 mb-8">
+        <div class="border-b border-gray-200 dark:border-gray-700 mb-8">
             <nav class="flex gap-8">
-                <button data-tab="design" class="tab-button px-1 py-4 text-sm font-medium border-b-2 border-blue-500 text-blue-600">
+                <button data-tab="design" class="tab-button px-1 py-4 text-sm font-medium border-b-2 border-blue-500 text-blue-600 dark:text-blue-400">
                     Design
                 </button>
-                <button data-tab="preview" class="tab-button px-1 py-4 text-sm font-medium border-b-2 border-transparent text-gray-500 hover:text-gray-700">
+                <button data-tab="preview" class="tab-button px-1 py-4 text-sm font-medium border-b-2 border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200">
                     Preview
                 </button>
-                <button data-tab="generate" class="tab-button px-1 py-4 text-sm font-medium border-b-2 border-transparent text-gray-500 hover:text-gray-700">
+                <button data-tab="generate" class="tab-button px-1 py-4 text-sm font-medium border-b-2 border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200">
                     Generate Skill
                 </button>
             </nav>
@@ -90,8 +105,8 @@
             <!-- Left Column - Settings -->
             <div class="lg:col-span-2 space-y-6">
                 <!-- Quick Presets -->
-                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                    <h2 class="font-semibold text-gray-900 text-lg mb-4">Quick Start Presets</h2>
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 transition-colors duration-200">
+                    <h2 class="font-semibold text-gray-900 dark:text-white text-lg mb-4">Quick Start Presets</h2>
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
                         <button data-preset="corporate" class="preset-card border-gray-200 hover:border-blue-400">
                             <div class="flex gap-1 mb-2">
@@ -99,7 +114,7 @@
                                 <div class="w-4 h-4 rounded-full" style="background-color: #3d5a80"></div>
                                 <div class="w-4 h-4 rounded-full" style="background-color: #ee6c4d"></div>
                             </div>
-                            <span class="text-sm font-medium text-gray-800">Corporate</span>
+                            <span class="text-sm font-medium text-gray-800 dark:text-gray-200">Corporate</span>
                         </button>
                         <button data-preset="creative" class="preset-card border-gray-200 hover:border-blue-400">
                             <div class="flex gap-1 mb-2">
@@ -107,7 +122,7 @@
                                 <div class="w-4 h-4 rounded-full" style="background-color: #8b5cf6"></div>
                                 <div class="w-4 h-4 rounded-full" style="background-color: #f59e0b"></div>
                             </div>
-                            <span class="text-sm font-medium text-gray-800">Creative</span>
+                            <span class="text-sm font-medium text-gray-800 dark:text-gray-200">Creative</span>
                         </button>
                         <button data-preset="minimal" class="preset-card border-gray-200 hover:border-blue-400">
                             <div class="flex gap-1 mb-2">
@@ -115,7 +130,7 @@
                                 <div class="w-4 h-4 rounded-full" style="background-color: #404040"></div>
                                 <div class="w-4 h-4 rounded-full" style="background-color: #737373"></div>
                             </div>
-                            <span class="text-sm font-medium text-gray-800">Minimal</span>
+                            <span class="text-sm font-medium text-gray-800 dark:text-gray-200">Minimal</span>
                         </button>
                         <button data-preset="academic" class="preset-card border-gray-200 hover:border-blue-400">
                             <div class="flex gap-1 mb-2">
@@ -123,142 +138,142 @@
                                 <div class="w-4 h-4 rounded-full" style="background-color: #1e3a8a"></div>
                                 <div class="w-4 h-4 rounded-full" style="background-color: #dc2626"></div>
                             </div>
-                            <span class="text-sm font-medium text-gray-800">Academic</span>
+                            <span class="text-sm font-medium text-gray-800 dark:text-gray-200">Academic</span>
                         </button>
                     </div>
                 </div>
 
                 <!-- Colors Section -->
-                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                    <h2 class="font-semibold text-gray-900 text-lg mb-4">Brand Colors</h2>
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 transition-colors duration-200">
+                    <h2 class="font-semibold text-gray-900 dark:text-white text-lg mb-4">Brand Colors</h2>
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                         <!-- Primary -->
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Primary</label>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Primary</label>
                             <div class="flex items-center gap-2">
                                 <div id="color-picker-primary"></div>
-                                <input type="text" id="hex-input-primary" class="flex-1 px-3 py-2 text-sm border border-gray-300 rounded-lg font-mono focus:ring-2 focus:ring-blue-500" placeholder="#000000" maxlength="7">
+                                <input type="text" id="hex-input-primary" class="flex-1 px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg font-mono focus:ring-2 focus:ring-blue-500" placeholder="#000000" maxlength="7">
                             </div>
-                            <p class="text-xs text-gray-500 mt-1">Headings, key elements</p>
+                            <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Headings, key elements</p>
                         </div>
                         <!-- Secondary -->
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Secondary</label>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Secondary</label>
                             <div class="flex items-center gap-2">
                                 <div id="color-picker-secondary"></div>
-                                <input type="text" id="hex-input-secondary" class="flex-1 px-3 py-2 text-sm border border-gray-300 rounded-lg font-mono focus:ring-2 focus:ring-blue-500" placeholder="#000000" maxlength="7">
+                                <input type="text" id="hex-input-secondary" class="flex-1 px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg font-mono focus:ring-2 focus:ring-blue-500" placeholder="#000000" maxlength="7">
                             </div>
-                            <p class="text-xs text-gray-500 mt-1">Subheadings, accents</p>
+                            <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Subheadings, accents</p>
                         </div>
                         <!-- Accent -->
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Accent</label>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Accent</label>
                             <div class="flex items-center gap-2">
                                 <div id="color-picker-accent"></div>
-                                <input type="text" id="hex-input-accent" class="flex-1 px-3 py-2 text-sm border border-gray-300 rounded-lg font-mono focus:ring-2 focus:ring-blue-500" placeholder="#000000" maxlength="7">
+                                <input type="text" id="hex-input-accent" class="flex-1 px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg font-mono focus:ring-2 focus:ring-blue-500" placeholder="#000000" maxlength="7">
                             </div>
-                            <p class="text-xs text-gray-500 mt-1">Highlights, CTAs</p>
+                            <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Highlights, CTAs</p>
                         </div>
                         <!-- Text -->
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Text</label>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Text</label>
                             <div class="flex items-center gap-2">
                                 <div id="color-picker-text"></div>
-                                <input type="text" id="hex-input-text" class="flex-1 px-3 py-2 text-sm border border-gray-300 rounded-lg font-mono focus:ring-2 focus:ring-blue-500" placeholder="#000000" maxlength="7">
+                                <input type="text" id="hex-input-text" class="flex-1 px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg font-mono focus:ring-2 focus:ring-blue-500" placeholder="#000000" maxlength="7">
                             </div>
-                            <p class="text-xs text-gray-500 mt-1">Body text color</p>
+                            <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Body text color</p>
                         </div>
                         <!-- Background -->
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Background</label>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Background</label>
                             <div class="flex items-center gap-2">
                                 <div id="color-picker-background"></div>
-                                <input type="text" id="hex-input-background" class="flex-1 px-3 py-2 text-sm border border-gray-300 rounded-lg font-mono focus:ring-2 focus:ring-blue-500" placeholder="#000000" maxlength="7">
+                                <input type="text" id="hex-input-background" class="flex-1 px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg font-mono focus:ring-2 focus:ring-blue-500" placeholder="#000000" maxlength="7">
                             </div>
-                            <p class="text-xs text-gray-500 mt-1">Page background</p>
+                            <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Page background</p>
                         </div>
                     </div>
                 </div>
 
                 <!-- Typography Section -->
-                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                    <h2 class="font-semibold text-gray-900 text-lg mb-4">Typography</h2>
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 transition-colors duration-200">
+                    <h2 class="font-semibold text-gray-900 dark:text-white text-lg mb-4">Typography</h2>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <!-- Heading Font -->
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Heading Font</label>
-                            <select id="heading-font" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Heading Font</label>
+                            <select id="heading-font" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-2 focus:ring-blue-500">
                             </select>
-                            <div id="heading-font-preview" class="mt-2 text-lg text-gray-700">Preview Text</div>
+                            <div id="heading-font-preview" class="mt-2 text-lg text-gray-700 dark:text-gray-300">Preview Text</div>
                         </div>
                         <!-- Body Font -->
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Body Font</label>
-                            <select id="body-font" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Body Font</label>
+                            <select id="body-font" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-2 focus:ring-blue-500">
                             </select>
-                            <div id="body-font-preview" class="mt-2 text-sm text-gray-700">Preview text for body content</div>
+                            <div id="body-font-preview" class="mt-2 text-sm text-gray-700 dark:text-gray-300">Preview text for body content</div>
                         </div>
                     </div>
 
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
                         <!-- Heading Weight -->
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Heading Weight</label>
-                            <select id="heading-weight" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Heading Weight</label>
+                            <select id="heading-weight" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-2 focus:ring-blue-500">
                             </select>
                         </div>
                         <!-- Body Weight -->
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Body Weight</label>
-                            <select id="body-weight" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Body Weight</label>
+                            <select id="body-weight" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-2 focus:ring-blue-500">
                             </select>
                         </div>
                         <!-- Line Height -->
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Line Height</label>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Line Height</label>
                             <input type="range" id="line-height" min="1" max="2.5" step="0.1" class="w-full">
-                            <div id="line-height-display" class="text-xs text-gray-500 text-center">1.6</div>
+                            <div id="line-height-display" class="text-xs text-gray-500 dark:text-gray-400 text-center">1.6</div>
                         </div>
                         <!-- Letter Spacing -->
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Letter Spacing</label>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Letter Spacing</label>
                             <input type="range" id="letter-spacing" min="-1" max="3" step="0.25" class="w-full">
-                            <div id="letter-spacing-display" class="text-xs text-gray-500 text-center">0px</div>
+                            <div id="letter-spacing-display" class="text-xs text-gray-500 dark:text-gray-400 text-center">0px</div>
                         </div>
                     </div>
 
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
                         <!-- H1 Size -->
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">H1 Size (pt)</label>
-                            <input type="number" id="h1-size" min="24" max="48" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">H1 Size (pt)</label>
+                            <input type="number" id="h1-size" min="24" max="48" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-2 focus:ring-blue-500">
                         </div>
                         <!-- H2 Size -->
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">H2 Size (pt)</label>
-                            <input type="number" id="h2-size" min="18" max="36" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">H2 Size (pt)</label>
+                            <input type="number" id="h2-size" min="18" max="36" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-2 focus:ring-blue-500">
                         </div>
                         <!-- H3 Size -->
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">H3 Size (pt)</label>
-                            <input type="number" id="h3-size" min="14" max="28" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">H3 Size (pt)</label>
+                            <input type="number" id="h3-size" min="14" max="28" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-2 focus:ring-blue-500">
                         </div>
                         <!-- Body Size -->
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Body Size (pt)</label>
-                            <input type="number" id="body-size" min="10" max="24" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Body Size (pt)</label>
+                            <input type="number" id="body-size" min="10" max="24" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-2 focus:ring-blue-500">
                         </div>
                     </div>
                 </div>
 
                 <!-- Logo Section -->
-                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                    <h2 class="font-semibold text-gray-900 text-lg mb-4">Logo</h2>
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 transition-colors duration-200">
+                    <h2 class="font-semibold text-gray-900 dark:text-white text-lg mb-4">Logo</h2>
                     <div class="flex flex-col md:flex-row gap-6">
                         <div class="flex-shrink-0">
-                            <div id="logo-preview" class="w-32 h-32 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center bg-gray-50 overflow-hidden">
-                                <span class="text-gray-400 text-sm">No logo uploaded</span>
+                            <div id="logo-preview" class="w-32 h-32 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg flex items-center justify-center bg-gray-50 dark:bg-gray-700 overflow-hidden">
+                                <span class="text-gray-400 dark:text-gray-500 text-sm">No logo uploaded</span>
                             </div>
                             <div class="mt-3 space-y-2">
                                 <label class="block">
@@ -266,21 +281,21 @@
                                     <input type="file" id="logo-upload" accept="image/png,image/jpeg,image/jpg"
                                         class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 cursor-pointer">
                                 </label>
-                                <button id="remove-logo" class="hidden text-sm text-red-600 hover:text-red-700">Remove Logo</button>
+                                <button id="remove-logo" class="hidden text-sm text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300">Remove Logo</button>
                             </div>
                         </div>
                         <div class="flex-1 grid grid-cols-2 gap-4">
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">Position</label>
-                                <select id="logo-position" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Position</label>
+                                <select id="logo-position" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-2 focus:ring-blue-500">
                                     <option value="header-left">Header Left</option>
                                     <option value="header-center">Header Center</option>
                                     <option value="header-right">Header Right</option>
                                 </select>
                             </div>
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">Size</label>
-                                <select id="logo-size" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Size</label>
+                                <select id="logo-size" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-2 focus:ring-blue-500">
                                     <option value="small">Small</option>
                                     <option value="medium" selected>Medium</option>
                                     <option value="large">Large</option>
@@ -291,30 +306,30 @@
                 </div>
 
                 <!-- Header/Footer Section -->
-                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                    <h2 class="font-semibold text-gray-900 text-lg mb-4">Header & Footer</h2>
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 transition-colors duration-200">
+                    <h2 class="font-semibold text-gray-900 dark:text-white text-lg mb-4">Header & Footer</h2>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Company Name</label>
-                            <input type="text" id="company-name" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="Your Company">
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Company Name</label>
+                            <input type="text" id="company-name" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="Your Company">
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Tagline</label>
-                            <input type="text" id="tagline" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="Your slogan here">
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Tagline</label>
+                            <input type="text" id="tagline" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="Your slogan here">
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Contact Info</label>
-                            <input type="text" id="contact-info" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="email@company.com">
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Contact Info</label>
+                            <input type="text" id="contact-info" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="email@company.com">
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Footer Text</label>
-                            <input type="text" id="footer-text" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="Page {page} of {pages}">
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Footer Text</label>
+                            <input type="text" id="footer-text" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="Page {page} of {pages}">
                         </div>
                     </div>
                 </div>
 
                 <!-- Watermark Section -->
-                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 transition-colors duration-200">
                     <div class="flex items-center justify-between mb-4">
                         <h2 class="font-semibold text-gray-900 text-lg">Watermark</h2>
                         <label class="relative inline-flex items-center cursor-pointer">
@@ -324,23 +339,23 @@
                     </div>
                     <div id="watermark-fields" class="hidden grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Type</label>
-                            <select id="watermark-type" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Type</label>
+                            <select id="watermark-type" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-2 focus:ring-blue-500">
                                 <option value="text">Text</option>
                                 <option value="image">Image</option>
                             </select>
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Content</label>
-                            <input type="text" id="watermark-content" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="DRAFT">
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Content</label>
+                            <input type="text" id="watermark-content" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="DRAFT">
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Opacity: <span id="opacity-display">10%</span></label>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Opacity: <span id="opacity-display">10%</span></label>
                             <input type="range" id="watermark-opacity" min="0.05" max="0.5" step="0.05" value="0.1" class="w-full">
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Position</label>
-                            <select id="watermark-position" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Position</label>
+                            <select id="watermark-position" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-2 focus:ring-blue-500">
                                 <option value="center">Center</option>
                                 <option value="diagonal">Diagonal</option>
                                 <option value="corner">Corner</option>
@@ -350,28 +365,28 @@
                 </div>
 
                 <!-- Layout Section -->
-                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                    <h2 class="font-semibold text-gray-900 text-lg mb-4">Layout</h2>
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 transition-colors duration-200">
+                    <h2 class="font-semibold text-gray-900 dark:text-white text-lg mb-4">Layout</h2>
                     <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Top Margin</label>
-                            <input type="number" id="margin-top" min="0.5" max="2" step="0.25" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Top Margin</label>
+                            <input type="number" id="margin-top" min="0.5" max="2" step="0.25" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-2 focus:ring-blue-500">
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Right Margin</label>
-                            <input type="number" id="margin-right" min="0.5" max="2" step="0.25" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Right Margin</label>
+                            <input type="number" id="margin-right" min="0.5" max="2" step="0.25" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-2 focus:ring-blue-500">
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Bottom Margin</label>
-                            <input type="number" id="margin-bottom" min="0.5" max="2" step="0.25" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Bottom Margin</label>
+                            <input type="number" id="margin-bottom" min="0.5" max="2" step="0.25" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-2 focus:ring-blue-500">
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Left Margin</label>
-                            <input type="number" id="margin-left" min="0.5" max="2" step="0.25" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Left Margin</label>
+                            <input type="number" id="margin-left" min="0.5" max="2" step="0.25" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-2 focus:ring-blue-500">
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Spacing</label>
-                            <select id="spacing" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Spacing</label>
+                            <select id="spacing" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-2 focus:ring-blue-500">
                                 <option value="compact">Compact</option>
                                 <option value="normal" selected>Normal</option>
                                 <option value="relaxed">Relaxed</option>
@@ -381,9 +396,9 @@
                 </div>
 
                 <!-- Template Upload Section -->
-                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                    <h2 class="font-semibold text-gray-900 text-lg mb-4">Import from Word Template</h2>
-                    <p class="text-sm text-gray-600 mb-4">Upload a .docx file to automatically extract colors, fonts, and styling.</p>
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 transition-colors duration-200">
+                    <h2 class="font-semibold text-gray-900 dark:text-white text-lg mb-4">Import from Word Template</h2>
+                    <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">Upload a .docx file to automatically extract colors, fonts, and styling.</p>
                     <label class="block">
                         <span class="sr-only">Choose Word template</span>
                         <input type="file" id="template-upload" accept=".docx,.doc"
@@ -393,13 +408,13 @@
                 </div>
 
                 <!-- Export/Import Section -->
-                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                    <h2 class="font-semibold text-gray-900 text-lg mb-4">Export & Import Profile</h2>
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 transition-colors duration-200">
+                    <h2 class="font-semibold text-gray-900 dark:text-white text-lg mb-4">Export & Import Profile</h2>
                     <div class="flex gap-3">
-                        <button id="export-profile" class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors font-medium">
+                        <button id="export-profile" class="px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors font-medium">
                             Export Profile (JSON)
                         </button>
-                        <button id="import-profile" class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors font-medium">
+                        <button id="import-profile" class="px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors font-medium">
                             Import Profile
                         </button>
                         <input type="file" id="import-input" accept=".json" class="hidden">
@@ -410,10 +425,10 @@
             <!-- Right Column - Mini Preview -->
             <div class="lg:col-span-1">
                 <div class="sticky top-24">
-                    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+                    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-4 transition-colors duration-200">
                         <div class="flex items-center justify-between mb-4">
-                            <h3 class="font-medium text-gray-900">Live Preview</h3>
-                            <button id="preview-toggle" class="text-sm text-blue-600 hover:text-blue-700">Switch to Presentation</button>
+                            <h3 class="font-medium text-gray-900 dark:text-white">Live Preview</h3>
+                            <button id="preview-toggle" class="text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300">Switch to Presentation</button>
                         </div>
                         <div id="preview-container" class="overflow-hidden rounded-lg">
                             <!-- Preview content rendered by JavaScript -->
@@ -425,14 +440,14 @@
 
         <!-- Preview Tab Panel -->
         <div data-tab-panel="preview" class="hidden">
-            <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 transition-colors duration-200">
                 <div class="flex items-center justify-between mb-6">
                     <h2 class="font-semibold text-gray-900 text-lg">Full Preview</h2>
-                    <button id="preview-toggle-full" class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors font-medium">
+                    <button id="preview-toggle-full" class="px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors font-medium">
                         Switch to Presentation
                     </button>
                 </div>
-                <div id="preview-container-full" class="flex justify-center py-8 bg-gray-100 rounded-lg overflow-auto">
+                <div id="preview-container-full" class="flex justify-center py-8 bg-gray-100 dark:bg-gray-900 rounded-lg overflow-auto">
                     <!-- Full preview content -->
                 </div>
             </div>
@@ -443,14 +458,14 @@
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 <!-- Left - Output -->
                 <div class="lg:col-span-2">
-                    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 transition-colors duration-200">
                         <div class="flex items-center justify-between mb-4">
                             <h2 class="font-semibold text-gray-900 text-lg">Generated Claude Skill</h2>
                             <div class="flex gap-2">
                                 <button id="copy-skill" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors font-medium">
                                     Copy to Clipboard
                                 </button>
-                                <button id="download-skill" class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors font-medium">
+                                <button id="download-skill" class="px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors font-medium">
                                     Download .md
                                 </button>
                             </div>
@@ -470,13 +485,13 @@
 
                 <!-- Right - Instructions -->
                 <div class="lg:col-span-1">
-                    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 sticky top-24">
-                        <h3 class="font-semibold text-gray-900 text-lg mb-4">How to Use This Skill</h3>
+                    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 transition-colors duration-200 sticky top-24">
+                        <h3 class="font-semibold text-gray-900 dark:text-white text-lg mb-4">How to Use This Skill</h3>
 
                         <div class="space-y-4 text-sm">
-                            <div class="pb-4 border-b border-gray-100">
-                                <h4 class="font-medium text-gray-800 mb-2">Claude Projects</h4>
-                                <ol class="list-decimal list-inside text-gray-600 space-y-1">
+                            <div class="pb-4 border-b border-gray-100 dark:border-gray-700">
+                                <h4 class="font-medium text-gray-800 dark:text-gray-200 mb-2">Claude Projects</h4>
+                                <ol class="list-decimal list-inside text-gray-600 dark:text-gray-400 space-y-1">
                                     <li>Open your Claude Project</li>
                                     <li>Go to Project Instructions</li>
                                     <li>Paste the skill content</li>
@@ -484,9 +499,9 @@
                                 </ol>
                             </div>
 
-                            <div class="pb-4 border-b border-gray-100">
-                                <h4 class="font-medium text-gray-800 mb-2">Claude Cowork</h4>
-                                <ol class="list-decimal list-inside text-gray-600 space-y-1">
+                            <div class="pb-4 border-b border-gray-100 dark:border-gray-700">
+                                <h4 class="font-medium text-gray-800 dark:text-gray-200 mb-2">Claude Cowork</h4>
+                                <ol class="list-decimal list-inside text-gray-600 dark:text-gray-400 space-y-1">
                                     <li>Create a new skill file</li>
                                     <li>Paste the markdown content</li>
                                     <li>Reference in your workspace</li>
@@ -494,8 +509,8 @@
                             </div>
 
                             <div>
-                                <h4 class="font-medium text-gray-800 mb-2">Claude Code</h4>
-                                <ol class="list-decimal list-inside text-gray-600 space-y-1">
+                                <h4 class="font-medium text-gray-800 dark:text-gray-200 mb-2">Claude Code</h4>
+                                <ol class="list-decimal list-inside text-gray-600 dark:text-gray-400 space-y-1">
                                     <li>Save as a .md file in your project</li>
                                     <li>Reference in CLAUDE.md or directly</li>
                                     <li>Use with document generation</li>
@@ -503,8 +518,8 @@
                             </div>
                         </div>
 
-                        <div class="mt-6 p-4 bg-blue-50 rounded-lg">
-                            <p class="text-sm text-blue-800">
+                        <div class="mt-6 p-4 bg-blue-50 dark:bg-blue-900/30 rounded-lg">
+                            <p class="text-sm text-blue-800 dark:text-blue-200">
                                 <strong>Tip:</strong> Generate skills for all document types you use and keep them in your project for consistent branding.
                             </p>
                         </div>
@@ -517,9 +532,9 @@
     <!-- Onboarding Modal -->
     <div id="onboarding-modal" class="hidden fixed inset-0 z-50 overflow-y-auto">
         <div class="flex min-h-full items-center justify-center p-4 bg-black bg-opacity-50">
-            <div class="onboarding-modal bg-white rounded-2xl shadow-2xl max-w-lg w-full p-8">
+            <div class="onboarding-modal bg-white dark:bg-gray-800 rounded-2xl shadow-2xl max-w-lg w-full p-8">
                 <!-- Progress Bar -->
-                <div class="h-1 bg-gray-200 rounded-full mb-8">
+                <div class="h-1 bg-gray-200 dark:bg-gray-700 rounded-full mb-8">
                     <div id="onboarding-progress" class="h-1 bg-blue-500 rounded-full transition-all duration-300" style="width: 16.66%"></div>
                 </div>
 
@@ -530,11 +545,11 @@
 
                 <!-- Navigation -->
                 <div class="flex items-center justify-between mt-8">
-                    <button id="onboarding-skip" class="text-sm text-gray-500 hover:text-gray-700" onclick="Onboarding.skipOnboarding()">
+                    <button id="onboarding-skip" class="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200" onclick="Onboarding.skipOnboarding()">
                         Skip setup
                     </button>
                     <div class="flex gap-3">
-                        <button id="onboarding-prev" class="invisible px-4 py-2 text-gray-600 hover:text-gray-800" onclick="Onboarding.prevStep()">
+                        <button id="onboarding-prev" class="invisible px-4 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200" onclick="Onboarding.prevStep()">
                             Back
                         </button>
                         <button id="onboarding-next" class="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 font-medium" onclick="Onboarding.nextStep()">
@@ -549,11 +564,11 @@
     <!-- Input Modal -->
     <div id="input-modal" class="hidden fixed inset-0 z-50 overflow-y-auto">
         <div class="flex min-h-full items-center justify-center p-4 bg-black bg-opacity-50">
-            <div class="bg-white rounded-xl shadow-2xl max-w-md w-full p-6">
-                <h3 id="input-modal-title" class="text-lg font-semibold text-gray-900 mb-4"></h3>
-                <input type="text" id="input-modal-input" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 mb-4">
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-2xl max-w-md w-full p-6">
+                <h3 id="input-modal-title" class="text-lg font-semibold text-gray-900 dark:text-white mb-4"></h3>
+                <input type="text" id="input-modal-input" class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 mb-4">
                 <div class="flex justify-end gap-3">
-                    <button id="input-modal-cancel" class="px-4 py-2 text-gray-600 hover:text-gray-800">Cancel</button>
+                    <button id="input-modal-cancel" class="px-4 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200">Cancel</button>
                     <button id="input-modal-confirm" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">Confirm</button>
                 </div>
             </div>

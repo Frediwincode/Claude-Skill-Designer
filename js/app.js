@@ -7,11 +7,67 @@
 let currentProfile = null;
 let currentTab = 'design';
 let selectedDocumentType = 'word';
+let isDarkMode = false;
+
+/**
+ * Initialize dark mode based on localStorage or system preference
+ */
+function initDarkMode() {
+    const stored = localStorage.getItem('darkMode');
+    if (stored !== null) {
+        isDarkMode = stored === 'true';
+    } else {
+        isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    }
+    applyDarkMode();
+
+    // Listen for system preference changes
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+        if (localStorage.getItem('darkMode') === null) {
+            isDarkMode = e.matches;
+            applyDarkMode();
+        }
+    });
+
+    // Set up toggle button
+    const toggleBtn = document.getElementById('dark-mode-toggle');
+    if (toggleBtn) {
+        toggleBtn.addEventListener('click', toggleDarkMode);
+    }
+}
+
+/**
+ * Toggle dark mode
+ */
+function toggleDarkMode() {
+    isDarkMode = !isDarkMode;
+    localStorage.setItem('darkMode', isDarkMode);
+    applyDarkMode();
+}
+
+/**
+ * Apply dark mode to the document
+ */
+function applyDarkMode() {
+    document.documentElement.classList.toggle('dark', isDarkMode);
+
+    // Update icon visibility
+    const sunIcon = document.getElementById('dark-mode-icon-sun');
+    const moonIcon = document.getElementById('dark-mode-icon-moon');
+
+    if (sunIcon && moonIcon) {
+        sunIcon.classList.toggle('hidden', !isDarkMode);
+        moonIcon.classList.toggle('hidden', isDarkMode);
+    }
+}
 
 /**
  * Initialize the application
  */
 function initApp() {
+    // Initialize dark mode first
+    initDarkMode();
+
     // Check for onboarding
     if (Onboarding.shouldShowOnboarding()) {
         Onboarding.showOnboarding();
@@ -110,8 +166,10 @@ function switchTab(tabId) {
         const isActive = tab.dataset.tab === tabId;
         tab.classList.toggle('border-blue-500', isActive);
         tab.classList.toggle('text-blue-600', isActive);
+        tab.classList.toggle('dark:text-blue-400', isActive);
         tab.classList.toggle('border-transparent', !isActive);
         tab.classList.toggle('text-gray-500', !isActive);
+        tab.classList.toggle('dark:text-gray-400', !isActive);
     });
 
     // Update tab panels
