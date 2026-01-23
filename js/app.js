@@ -178,10 +178,50 @@ function updateProfileSelector() {
 }
 
 /**
+ * Show a centered input modal dialog
+ * @param {string} title - The modal title/prompt
+ * @param {string} defaultValue - Default input value
+ * @returns {Promise<string|null>} - Resolves with input value or null if cancelled
+ */
+function showInputModal(title, defaultValue = '') {
+    return new Promise((resolve) => {
+        const modal = document.getElementById('input-modal');
+        const titleEl = document.getElementById('input-modal-title');
+        const input = document.getElementById('input-modal-input');
+        const cancelBtn = document.getElementById('input-modal-cancel');
+        const confirmBtn = document.getElementById('input-modal-confirm');
+
+        titleEl.textContent = title;
+        input.value = defaultValue;
+        modal.classList.remove('hidden');
+        input.focus();
+        input.select();
+
+        const cleanup = () => {
+            modal.classList.add('hidden');
+            cancelBtn.removeEventListener('click', handleCancel);
+            confirmBtn.removeEventListener('click', handleConfirm);
+            input.removeEventListener('keydown', handleKeydown);
+        };
+
+        const handleCancel = () => { cleanup(); resolve(null); };
+        const handleConfirm = () => { cleanup(); resolve(input.value); };
+        const handleKeydown = (e) => {
+            if (e.key === 'Enter') handleConfirm();
+            if (e.key === 'Escape') handleCancel();
+        };
+
+        cancelBtn.addEventListener('click', handleCancel);
+        confirmBtn.addEventListener('click', handleConfirm);
+        input.addEventListener('keydown', handleKeydown);
+    });
+}
+
+/**
  * Create a new profile
  */
-function createNewProfile() {
-    const name = prompt('Enter a name for the new profile:');
+async function createNewProfile() {
+    const name = await showInputModal('Enter a name for the new profile:');
     if (!name) return;
 
     const profile = Storage.createDefaultProfile(name);
@@ -213,10 +253,10 @@ function deleteCurrentProfile() {
 /**
  * Rename the current profile
  */
-function renameCurrentProfile() {
+async function renameCurrentProfile() {
     if (!currentProfile) return;
 
-    const newName = prompt('Enter new name:', currentProfile.name);
+    const newName = await showInputModal('Enter new name:', currentProfile.name);
     if (!newName || newName === currentProfile.name) return;
 
     currentProfile.name = newName;
