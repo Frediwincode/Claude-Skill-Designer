@@ -1,199 +1,175 @@
 # Claude Skill Designer
 
-A web-based application for creating document design skills for Claude products. Generate brand guidelines that produce ready-to-use Claude skills for Word, Google Docs, PowerPoint, and Google Slides.
+一款网页端品牌设计工具，帮你快速生成适用于 Claude 的文档格式化 Skill。支持 Word、Google Docs、PowerPoint、Google Slides 四种文档类型。
 
-## Live Demo
+## 在线体验
 
-[**Open Claude Skill Designer**](https://hillis.github.io/ClaudeSkillDesigner)
+[**打开 Claude Skill Designer**](https://frediwincode.github.io/Claude-Skill-Designer)
 
-## What It Does
+## 这个工具解决什么问题？
 
-Claude Skill Designer helps you define your brand's visual identity and automatically generates Claude skills that enforce consistent styling across all your documents and presentations. Instead of manually describing your brand guidelines every time, create a skill once and reuse it across Claude Projects, Claude Cowork, or Claude Code.
+每次让 Claude 生成文档时，你都要重新描述品牌规范（颜色、字体、排版等），非常繁琐。
 
-### Generated Skills Include:
-- Color palette with usage guidelines
-- Typography specifications (fonts, sizes, weights)
-- Logo placement instructions
-- Header/footer formatting
-- Watermark settings
-- Layout and margin specifications
-- Step-by-step application instructions
+> 用这个工具，你只需配置一次品牌视觉，就能导出一份标准化的 Claude Skill 文件（`.md`），之后在 Claude Projects、Claude Cowork 或 Claude Code 中直接复用。
 
-## Features
+## 生成的 Skill 包含什么？
 
-### Brand Profile Management
-- Create multiple brand profiles for different projects or clients
-- Auto-save to browser localStorage
-- Export/import profiles as JSON files
-- Duplicate and rename profiles
+- 品牌色板及使用规范
+- 字体规格（字族、字号、字重）
+- Logo 放置规则
+- 页眉 / 页脚格式
+- 水印设置
+- 页面布局与边距
 
-### Design Controls
+## 功能一览
 
-| Feature | Description |
-|---------|-------------|
-| **Colors** | Primary, Secondary, Accent, Text, and Background colors with visual picker and hex input |
-| **Typography** | Google Fonts integration, separate heading/body fonts, sizes for H1-H3, weight controls, line height, letter spacing |
-| **Logo** | PNG/JPG upload, position options (left/center/right), size controls |
-| **Header/Footer** | Company name, tagline, contact info, footer text with page number placeholders |
-| **Watermark** | Text or image, opacity slider, position (center/diagonal/corner) |
-| **Layout** | Configurable margins, paragraph spacing presets |
+### 品牌档案管理
+- 创建多个品牌档案（不同项目 / 客户）
+- 自动保存到浏览器 localStorage
+- 支持 JSON 格式导入 / 导出
+- 档案复制与重命名
 
-### Preset Templates
+### 设计配置项
 
-Get started quickly with four professionally designed presets:
+| 模块 | 说明 |
+|------|------|
+| **颜色** | 主色、辅色、强调色、文字色、背景色，支持取色器和 HEX 输入 |
+| **字体** | 集成 Google Fonts，标题 / 正文字体分开设置，H1-H3 字号、字重、行高、字间距 |
+| **Logo** | 上传 PNG/JPG（最大 2MB），可设置位置（左/中/右）和尺寸 |
+| **页眉 / 页脚** | 公司名、Tagline、联系方式、页脚文字，支持页码占位符 |
+| **水印** | 文字或图片水印，透明度滑块，位置选择（居中/对角线/角落） |
+| **布局** | 可调边距、段落间距预设 |
 
-- **Corporate** - Professional blues, serif headings, clean layout
-- **Creative** - Bold colors, modern fonts, dynamic spacing
-- **Minimal** - Monochrome, simple typography, generous whitespace
-- **Academic** - Traditional fonts, formal structure, citation-friendly
+### 预设模板
 
-### Word Template Import
+提供四套开箱即用的品牌模板：
 
-Upload an existing `.docx` file to automatically extract:
-- Color schemes
-- Font families
-- Font sizes
-- Styling patterns
+- **Corporate** — 专业蓝色系，衬线标题，简洁排版
+- **Creative** — 大胆配色，现代字体，动感间距
+- **Minimal** — 黑白灰，极简字体，大量留白
+- **Academic** — 传统字体，学术结构，适合引用格式
 
-### Live Preview
+### Word 模板导入
 
-Real-time preview showing your brand applied to:
-- Document view (reports, letters, memos)
-- Presentation view (slides with title and content layouts)
+上传现有 `.docx` 文件，自动提取：
+- 配色方案
+- 字体族
+- 字号
+- 样式规则
 
-### Skill Generation
+### 实时预览
 
-Generate Claude skills for four document types:
-- Microsoft Word
-- Google Docs
-- PowerPoint
-- Google Slides
+实时查看品牌效果，支持两种视图：
+- **文档视图**（报告、信函、备忘录）
+- **演示文稿视图**（幻灯片标题页和内容页）
 
-Each skill includes detailed formatting instructions tailored to the specific platform.
+## 使用流程
 
-## How to Use
+### 第一步：创建品牌档案
 
-### 1. Create a Brand Profile
+1. 打开应用，按照引导向导完成初始设置；或
+2. 点击页头的 **+** 按钮新建档案
+3. 为档案命名（例如「Acme 品牌规范」）
 
-1. Open the app and complete the onboarding wizard, or
-2. Click the **+** button in the header to create a new profile
-3. Name your profile (e.g., "Acme Corp Brand")
+### 第二步：配置品牌视觉
 
-### 2. Configure Your Brand
+**颜色** — 点击色块打开取色器，或直接输入 HEX 值；也可使用预设配色方案一键应用。
 
-**Colors Tab:**
-- Click any color swatch to open the color picker
-- Enter hex codes directly for precise values
-- Use the preset buttons to apply a complete color scheme
+**字体** — 从 Google Fonts 下拉选择标题和正文字体，调整字重、字号和间距，实时预览效果。
 
-**Typography:**
-- Select heading and body fonts from the Google Fonts dropdown
-- Adjust font weights, sizes, and spacing
-- Preview changes in real-time
+**Logo** — 上传 Logo 图片（PNG/JPG，≤ 2MB），选择位置和尺寸。
 
-**Logo:**
-- Upload your logo (PNG or JPG, max 2MB)
-- Choose position and size
+**其他** — 按需配置页眉页脚、水印、边距和间距。
 
-**Additional Settings:**
-- Add header/footer text
-- Configure watermark if needed
-- Adjust margins and spacing
+### 第三步：预览效果
 
-### 3. Preview Your Design
+切换到 **Preview** 标签页查看完整预览，可在文档视图和演示文稿视图之间切换。侧边栏也有实时缩略预览。
 
-- Switch to the **Preview** tab to see a full-size preview
-- Toggle between document and presentation views
-- The sidebar also shows a live mini-preview
+### 第四步：生成 Skill
 
-### 4. Generate Your Skill
+1. 进入 **Generate Skill** 标签页
+2. 选择目标文档类型（Word / Google Docs / PowerPoint / Google Slides）
+3. 点击 **Copy to Clipboard** 或 **Download .md**
 
-1. Go to the **Generate Skill** tab
-2. Select your target document type (Word, Google Docs, PowerPoint, or Google Slides)
-3. Click **Copy to Clipboard** or **Download .md**
+### 第五步：使用生成的 Skill
 
-### 5. Use Your Skill
+**Claude Projects：**
+1. 打开 Claude Project → Project Instructions
+2. 粘贴 Skill 内容并保存
 
-**In Claude Projects:**
-1. Open your Claude Project
-2. Go to Project Instructions
-3. Paste the skill content
-4. Save and start creating documents
+**Claude Cowork：**
+1. 在工作区创建 Skill 文件
+2. 粘贴 markdown 内容，在对话中引用
 
-**In Claude Cowork:**
-1. Create a new skill file in your workspace
-2. Paste the markdown content
-3. Reference the skill in your conversations
+**Claude Code：**
+1. 将 `.md` 文件保存到 `.claude/skills/` 目录
+2. 在对话中即可被识别和使用
 
-**In Claude Code:**
-1. Save as a `.md` file in your project
-2. Reference in `CLAUDE.md` or include directly in prompts
+## 本地运行
 
-## Local Development
-
-No build step required. Simply:
+无需构建步骤，直接打开即可：
 
 ```bash
-# Clone the repository
-git clone https://github.com/hillis/ClaudeSkillDesigner.git
+# 克隆仓库
+git clone https://github.com/Frediwincode/Claude-Skill-Designer.git
 
-# Open in browser
-open ClaudeSkillDesigner/index.html
+# 用浏览器打开
+open Claude-Skill-Designer/index.html
 ```
 
-Or serve with any static file server:
+或者启动本地服务器：
 
 ```bash
-cd ClaudeSkillDesigner
+cd Claude-Skill-Designer
 python -m http.server 8000
-# Open http://localhost:8000
+# 访问 http://localhost:8000
 ```
 
-## Technology Stack
+## 技术栈
 
-- **Vanilla JavaScript** (ES6+) - No framework dependencies
-- **Tailwind CSS** (CDN) - Utility-first styling
-- **Pickr** - Color picker component
-- **Mammoth.js** - Word document parsing
-- **Google Fonts API** - Typography options
-- **localStorage** - Profile persistence
+- **Vanilla JavaScript**（ES6+）— 无框架依赖
+- **Tailwind CSS**（CDN）— 原子化样式
+- **Pickr** — 取色器组件
+- **Mammoth.js** — Word 文档解析
+- **Google Fonts API** — 字体选项
+- **localStorage** — 档案持久化
 
-## Browser Support
+## 浏览器支持
 
-Works in all modern browsers:
-- Chrome/Edge (recommended)
+支持所有现代浏览器：
+- Chrome / Edge（推荐）
 - Firefox
 - Safari
 
-## File Structure
+## 项目结构
 
 ```
-ClaudeSkillDesigner/
-├── index.html          # Main application
+Claude-Skill-Designer/
+├── index.html            # 主应用
 ├── css/
-│   └── styles.css      # Custom styles
+│   └── styles.css        # 自定义样式
 ├── js/
-│   ├── app.js          # Main controller
-│   ├── storage.js      # localStorage management
-│   ├── presets.js      # Preset templates
-│   ├── onboarding.js   # First-time wizard
-│   ├── colorPicker.js  # Color picker integration
-│   ├── typography.js   # Font controls
-│   ├── templateParser.js # Word doc parsing
-│   ├── skillGenerator.js # Markdown generation
-│   └── preview.js      # Live preview
+│   ├── app.js            # 主控制器
+│   ├── storage.js        # localStorage 管理
+│   ├── presets.js         # 预设模板
+│   ├── onboarding.js     # 首次使用向导
+│   ├── colorPicker.js    # 取色器集成
+│   ├── typography.js     # 字体控制
+│   ├── templateParser.js # Word 文档解析
+│   ├── skillGenerator.js # Markdown 生成
+│   └── preview.js        # 实时预览
 └── assets/
-    └── presets/        # (Reserved for future use)
+    └── presets/           # 预留
 ```
 
-## License
+## 许可证
 
-MIT License - Feel free to use, modify, and distribute.
+MIT License
 
-## Contributing
+## 贡献
 
-Contributions welcome! Please open an issue or submit a pull request.
+欢迎提 Issue 或 Pull Request。
 
 ---
 
-Built for use with [Claude](https://claude.ai) by Anthropic.
+为 [Claude](https://claude.ai) by Anthropic 而构建。
